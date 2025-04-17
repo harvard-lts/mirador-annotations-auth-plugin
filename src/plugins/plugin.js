@@ -22,27 +22,40 @@ const styles = theme => ({
 });
 
 /** */
-function getAnnotationPage(canvases, canvasIds) {
+function getAnnotationPages(canvases, canvasIds) {
   let annotationPage = null;
+  let annotationPagesArray = [];
+  let annotationPages = [];
   for (let i = 0; i < canvases.length; i++) {
     if (canvases[i].id === canvasIds[0]) {
       if (canvases[i].__jsonld.otherContent !== undefined) {
         // Version 2 Annotation Page
         annotationPage = canvases[i].__jsonld.otherContent[0]["@id"];
+        annotationPagesArray = canvases[i].__jsonld.otherContent;
+        for (let j = 0; j < annotationPagesArray.length; j++) {
+          if (annotationPagesArray[j]["@type"] === "sc:AnnotationList") {
+            annotationPages[j] = annotationPagesArray[j]["@id"];
+          }
+        }
       }
       if (canvases[i].__jsonld.annotations !== undefined) {
         // Version 3 Annotation Page
         annotationPage = canvases[i].__jsonld.annotations[0].id;
+        annotationPagesArray = canvases[i].__jsonld.annotations;
+        for (let j = 0; j < annotationPagesArray.length; j++) {
+          if (annotationPagesArray[j].type === "AnnotationPage") {
+            annotationPages[j] = annotationPagesArray[j].id;
+          }
+        }
       }
       break;
     }
   }
-  console.log('annotationPage', annotationPage);
-  return annotationPage;
+  return annotationPages;
 }
 
 const mapStateToProps = (state, { canvasId, windowId }) => ({
-  canvasAnnotationPage: getAnnotationPage(getCanvases(state, { windowId }), getVisibleCanvasIds(state, { windowId })),
+  canvasAnnotationPages: getAnnotationPages(getCanvases(state, { windowId }), getVisibleCanvasIds(state, { windowId })),
   canvasLabel: getCanvasLabel(state, { canvasId, windowId }),
   windowId: windowId,
 });
