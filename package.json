@@ -5,7 +5,7 @@
     "keywords": [
         "react-component"
     ],
-    "version": "0.0.3",
+    "version": "0.0.2",
     "description": "A Mirador 3 plugin for including authentication cookies for annotations.",
     "module": "dist/es/index.js",
     "files": [
