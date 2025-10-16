@@ -4,6 +4,7 @@ import AnnotationsAuthSidePanel from './component';
 import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
 import { getVisibleCanvasIds, getCanvases, getCanvasLabel } from 'mirador/dist/es/src/state/selectors';
+import AnnotationFactory from 'mirador/dist/es/src/lib/AnnotationFactory';
 
 const styles = theme => ({
   section: {
@@ -54,8 +55,27 @@ function getAnnotationPages(canvases, canvasIds) {
   return annotationPages;
 }
 
+function getAnnotationList(canvases, canvasIds) {
+  let annotationList = [];
+  for (let i = 0; i < canvases.length; i++) {
+    if (canvases[i].id === canvasIds[0]) {
+      if (canvases[i].__jsonld.otherContent !== undefined) {
+        // Version 2 Annotation Page
+        annotationList = AnnotationFactory.determineAnnotation(canvases[i].__jsonld.otherContent);
+      }
+      if (canvases[i].__jsonld.annotations !== undefined) {
+        // Version 3 Annotation Page
+        annotationList = AnnotationFactory.determineAnnotation(canvases[i].__jsonld.annotations);
+      }
+      break;
+    }
+  }
+  return annotationList;
+}
+
 const mapStateToProps = (state, { canvasId, windowId }) => ({
   canvasAnnotationPages: getAnnotationPages(getCanvases(state, { windowId }), getVisibleCanvasIds(state, { windowId })),
+  canvasAnnotationList: getAnnotationList(getCanvases(state, { windowId }), getVisibleCanvasIds(state, { windowId })),
   canvasLabel: getCanvasLabel(state, { canvasId, windowId }),
   windowId: windowId,
 });

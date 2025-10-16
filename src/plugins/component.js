@@ -15,10 +15,11 @@ export default class AnnotationsAuthSidePanel extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleAnnotationHover = this.handleAnnotationHover.bind(this);
     this.handleAnnotationBlur = this.handleAnnotationBlur.bind(this);
-    const { windowId, canvasAnnotationPages } = this.props;
+    const { windowId, canvasAnnotationPages, canvasAnnotationList } = this.props;
     this.state = {
       windowId: windowId,
       canvasAnnotationPages: canvasAnnotationPages,
+      canvasAnnotationList: canvasAnnotationList,
     };
   }
 
@@ -52,7 +53,16 @@ export default class AnnotationsAuthSidePanel extends Component {
   }
 
   async componentDidMount() {
-    const { canvasAnnotationPages } = this.state;
+    const { canvasAnnotationPages, canvasAnnotationList } = this.state;
+    if (canvasAnnotationList.json !== undefined) {
+      if (canvasAnnotationList.json[0].items !== undefined) {
+        this.setState({
+          annotationData: canvasAnnotationList.json[0].items,
+          loading: false,
+        });
+        return;
+      }
+    }
     const promises = [];
     canvasAnnotationPages.forEach(function (annotationPage, index) {
       const promise = new Promise(async (resolve, reject) => {
@@ -136,7 +146,7 @@ export default class AnnotationsAuthSidePanel extends Component {
                     <ListItemText primaryTypographyProps={{ variant: 'body2' }}>
                       <SanitizedHtml
                         ruleSet={htmlSanitizationRuleSet}
-                        htmlString={annotation.resources[0].resource.chars}
+                        htmlString={annotation.body?.value || annotation.resources?.[0]?.resource?.chars || ''}
                       />
                     </ListItemText>
                   </MenuItem>
@@ -152,6 +162,7 @@ export default class AnnotationsAuthSidePanel extends Component {
 
 AnnotationsAuthSidePanel.propTypes = {
   canvasAnnotationPages: PropTypes.arrayOf(PropTypes.string),
+  canvasAnnotationList: PropTypes.arrayOf(PropTypes.object),
   canvasLabel: PropTypes.string,
   classes: PropTypes.objectOf(PropTypes.string),
   htmlSanitizationRuleSet: PropTypes.string,
@@ -165,6 +176,7 @@ AnnotationsAuthSidePanel.propTypes = {
 
 AnnotationsAuthSidePanel.defaultProps = {
   canvasAnnotationPages: [],
+  canvasAnnotationList: [],
   canvasLabel: null,
   classes: {},
   htmlSanitizationRuleSet: 'iiif',
