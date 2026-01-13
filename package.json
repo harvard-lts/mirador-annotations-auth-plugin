@@ -20,7 +20,7 @@
         "serve": "vite",
         "test": "vitest run",
         "test:coverage": "vitest run --coverage",
-        "test:watch": "vitest --watch"
+        "test:watch": "vitest"
     },
     "devDependencies": {
         "@babel/cli": "^7.26.4",
