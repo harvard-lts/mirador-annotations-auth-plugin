@@ -7,9 +7,6 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./setupTests.js'],
     globals: true,
-    transformMode: {
-      web: [/\.[jt]sx?$/],
-    },
   },
   esbuild: {
     loader: 'jsx',
