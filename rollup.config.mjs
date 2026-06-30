@@ -6,6 +6,10 @@ const config = {
     dir: "dist/es",
     format: "es",
   },
+  external: [
+    /^react($|\/)/, /^react-dom($|\/)/, "mirador", /^@mui\//, /^@emotion\//,
+    "redux", "react-redux", "react-i18next", "prop-types",
+  ],
   plugins: [babel({ babelHelpers: "bundled" })],
 };
 

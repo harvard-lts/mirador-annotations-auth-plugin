@@ -1,26 +1,10 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import AnnotationsAuthSidePanel from './component';
-import { withStyles } from '@material-ui/core/styles';
 import { withTranslation } from 'react-i18next';
-import { getVisibleCanvasIds, getCanvases, getCanvasLabel } from 'mirador/dist/es/src/state/selectors';
-import AnnotationFactory from 'mirador/dist/es/src/lib/AnnotationFactory';
-
-const styles = theme => ({
-  section: {
-    borderBottom: `.5px solid ${theme.palette.section_divider}`,
-    paddingBottom: theme.spacing(1),
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-    paddingTop: theme.spacing(2),
-  },
-  citationIntro: {
-    paddingBottom: theme.spacing(1),
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-    paddingTop: theme.spacing(2),
-  },
-});
+import {
+  getVisibleCanvasIds, getCanvases, getCanvasLabel, AnnotationFactory,
+} from 'mirador';
+import AnnotationsAuthSidePanel from './component.jsx';
 
 /** */
 function getAnnotationPages(canvases, canvasIds) {
@@ -82,12 +66,15 @@ const mapStateToProps = (state, { canvasId, windowId }) => ({
 
 const enhance = compose(
   withTranslation(),
-  withStyles(styles),
   connect(mapStateToProps),
 );
 
 export default {
-    target: 'CanvasAnnotations',
-    mode: 'wrap',
-    component: enhance(AnnotationsAuthSidePanel)
+  name: 'AnnotationsAuthPlugin',
+  target: 'CanvasAnnotations',
+  mode: 'wrap',
+  component: enhance(AnnotationsAuthSidePanel),
+  mapStateToProps,
 };
+
+export { getAnnotationPages, getAnnotationList, mapStateToProps };
