@@ -113,9 +113,18 @@ function AnnotationsAuthSidePanel(props) {
                   key={annotation.id}
                   annotationid={annotation.id}
                   selected={selectedAnnotationId === annotation.id}
-                  sx={hoveredAnnotationIds.includes(annotation.id)
-                    ? { backgroundColor: 'action.hover' }
-                    : undefined}
+                  sx={{
+                    // MUI 7's MenuItem defaults to `white-space: nowrap`, so long
+                    // annotation text stays on one line and overflows horizontally
+                    // (MUI 4, used by Mirador 3, wrapped by default). Force the item
+                    // to wrap and break long words so the text stays within the
+                    // annotation panel's width.
+                    whiteSpace: 'normal',
+                    wordBreak: 'break-word',
+                    ...(hoveredAnnotationIds.includes(annotation.id)
+                      ? { backgroundColor: 'action.hover' }
+                      : {}),
+                  }}
                   onClick={(e) => handleClick(e, annotation)}
                   onFocus={() => handleAnnotationHover(annotation)}
                   onBlur={handleAnnotationBlur}
