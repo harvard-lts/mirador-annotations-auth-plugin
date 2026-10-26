@@ -5,7 +5,7 @@
     "keywords": [
         "react-component"
     ],
-    "version": "2.0.2",
+    "version": "2.0.3",
     "description": "A Mirador 4 plugin for including authentication cookies for annotations.",
     "module": "dist/es/index.js",
     "files": [
@@ -32,14 +32,14 @@
         "@testing-library/jest-dom": "^6.6.0",
         "@testing-library/react": "^16.0.0",
         "@vitejs/plugin-react": "^5.1.2",
-        "@vitest/coverage-v8": "^4.1.11",
+        "@vitest/coverage-v8": "^5.0.5",
         "jsdom": "^26.1.0",
         "mirador": "^4.1.0",
         "npm-run-all": "^4.1.5",
         "rollup": "^3.29.5",
         "url": "^0.11.4",
         "vite": "^8.0.16",
-        "vitest": "^4.1.11",
+        "vitest": "^5.0.5",
         "whatwg-fetch": "^3.6.2"
     },
     "dependencies": {
@@ -54,5 +54,8 @@
         "react-i18next": "^15.0.0",
         "react-redux": "^9.0.0",
         "redux": "^5.0.0"
+    },
+    "allowScripts": {
+        "fsevents@2.3.3": true
     }
 }
