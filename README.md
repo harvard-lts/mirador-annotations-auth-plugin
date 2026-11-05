@@ -1,3 +1,5 @@
+# THIS PLUGIN HAS BEEN ARCHIVED AND IS NO LONGER BEING MAINTAINED
+
 # Mirador annotations authentication plugin
 
 [![Node Unit Tests](https://github.com/harvard-lts/mirador-annotations-auth-plugin/actions/workflows/coverage-node.yml/badge.svg)](https://github.com/harvard-lts/mirador-annotations-auth-plugin/actions/workflows/coverage-node.yml)
